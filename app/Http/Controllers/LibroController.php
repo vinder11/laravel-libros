@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Libro;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class LibroController extends Controller
 {
     public function index() {
-        $auto = ["color" => "Verde", "Marca" => "Toyota", "Año" => 2005];
-        dd($auto);
-        $libros = "Esta es una pantalla de libros ";
+        $libros = Libro::all();
+        // dd($libros);
         return $libros;
     }
 
@@ -22,8 +23,15 @@ class LibroController extends Controller
     }
 
     public function show($libro) {
-        $libros = "Esta es una pantalla para motrar el libro {$libro}";
-        return $libros;
+        // $libro = DB::table('libros')->where('id', $libro)->get()->first();
+        // $libro = DB::table('libros')->find($libro);
+        $libro = Libro::findOrFail($libro);
+        // dd($libro);
+        // select * from libros where id = $libro;
+        // return $libro;
+        $var = '<strong>54012</strong>';
+        $var2 = 'Hola mundo';
+        return view('libros.show')->with(['libro' => $libro, 'var' => $var, 'variable' => $var2 ]);
     }
 
     public function edit($libro) {

@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Libro</title>
-</head>
-<body>
-	<h1>{{ $libro->titulo }}</h1>
-	<p>{{ $libro->prologo }}</p>
-	{!! $var !!}
-	@{{ $variable }}
-</body>
-</html>
+
+@extends('layouts.principal')
+@section('content')
+<h1>{{ $libro->titulo }}</h1>
+<p>{{ $libro->prologo }}</p>
+<p><strong>Precio</strong> {{ $libro->precio }}</p>
+<p><strong>Stock</strong> {{ $libro->stock }}</p>
+<p><strong>Estado</strong> {{ $libro->estado }}</p>
+@endsection
+		

@@ -1,4 +1,4 @@
-@extends('layouts.principal')
+@extends('layouts.app')
 
 @section('content')
 <h1>Lista de libros</h1>
@@ -34,7 +34,11 @@
 					<td>
 						<a class="btn btn-link" href="{{ route('libros.show', ['libro' => $libro->id]) }}" >Mostrar</a>
 						<a class="btn btn-link" href="{{ route('libros.edit', ['libro' => $libro->id]) }}"  >Editar</a>
-						<a class="btn btn-link" href="" >Eliminar</a>
+						<form action="{{ route('libros.destroy', ['libro' => $libro->id]) }}" method="post">
+							@csrf
+							@method('DELETE')
+							<button type="submit" class="btn btn-link">Elimar</button>
+						</form>
 					</td>
 				</tr>
 				@endforeach

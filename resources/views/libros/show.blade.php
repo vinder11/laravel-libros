@@ -1,5 +1,5 @@
 
-@extends('layouts.principal')
+@extends('layouts.app')
 @section('content')
 <h1>{{ $libro->titulo }}</h1>
 <p>{{ $libro->prologo }}</p>

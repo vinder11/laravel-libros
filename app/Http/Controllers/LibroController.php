@@ -8,6 +8,17 @@ use Illuminate\Support\Facades\DB;
 
 class LibroController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        // $this->middleware('auth')->only(['show', 'create']);
+        // $this->middleware('auth')->except(['index', 'show']);
+    }
+
     public function index() {
         $libros = Libro::all();
         // dd($libros);
@@ -20,13 +31,26 @@ class LibroController extends Controller
 
     public function store() {
         // dd(request());
+        if (request()->estado == 'disponible' && request()->stock == 0) {
+            session()->flash('error', 'El estado y el stock no coinciden');
+            return redirect()->back()->withInput(request()->all());
+        }
+
+        $rules = [
+            'titulo' => ['required', 'max:255'],
+            'prologo' => ['required', 'max:1500'],
+            'precio' => ['required', 'min:1'],
+            'stock' => ['required', 'min:0'],
+            'estado' => ['required', 'in:disponible,nodisponible'],
+        ];
+
+        request()->validate($rules);
+
         $libro = Libro::create(request()->all());
-        return $libro;
+        return redirect()->route('libros.index');
     }
 
-    public function show($libro) {
-        $libro = Libro::findOrFail($libro);
-        // dd($libro);
+    public function show(Libro $libro) {
         return view('libros.show')->with(['libro' => $libro ]);
     }
 
@@ -38,12 +62,29 @@ class LibroController extends Controller
 
     public function update($libro) {
         // dd(request());
+        if (request()->estado == 'disponible' && request()->stock == 0) {
+            session()->flash('error', 'El estado y el stock no coinciden');
+            return redirect()->back()->withInput(request()->all());
+        }
+
+        $rules = [
+            'titulo' => ['required', 'max:255'],
+            'prologo' => ['required', 'max:1500'],
+            'precio' => ['required', 'min:1'],
+            'stock' => ['required', 'min:0'],
+            'estado' => ['required', 'in:disponible,nodisponible'],
+        ];
+
+        request()->validate($rules);
+
         $libro = Libro::findOrFail($libro);
         $libro->update(request()->all());
-        return $libro;
+        return redirect()->route('libros.index')->withSuccess("Se ha logrado modificar el libro {$libro->titulo}");
     }
 
-    public function destroy($idLibro) {
-
+    public function destroy($libro) {
+        $libro = Libro::findOrFail($libro);
+        $libro->delete();
+        return redirect()->back();
     }
 }

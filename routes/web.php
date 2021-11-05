@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', 'HomeController@index')->name();
+Route::get('/', 'HomeController@index')->name();
 
-Route::resource('libros', 'LibroController')->only(['index', 'create']);
+// Route::resource('libros', 'LibroController')->only(['index', 'create']);
 // Route::resource('libros', 'LibroController')->except('index');
 // Route::resource('libros', 'LibroController')->except(['index, show']);
 
